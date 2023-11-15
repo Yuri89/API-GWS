@@ -6,24 +6,23 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.core.serializer.Serializer;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "tb_usuarios")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id_usuario")
- public class UsuarioModel implements Serializable {
+ public class UsuarioModel implements Serializable, UserDetails {
 
    @Serial
    private static final long serialVersionUID = 1L;
@@ -32,7 +31,7 @@ import java.util.UUID;
     @Column(name = "id_usuario", nullable = false)
     private UUID id_usuario;
     private String nome;
-    private String tipo_usuario;
+    private TipoUsuarioModel tipo_usuario;
     private String sobrenome;
     private String telefone;
     private String email;
@@ -64,7 +63,63 @@ import java.util.UUID;
     )
     private Set<HardSkillsModel> foreign_hardskill;
 
-    @ManyToMany(mappedBy = "foreign_demanda")
-    private Set<DemandasModel> foreing_demanda;
+//    @ManyToMany(mappedBy = "foreign_demanda")
+//    private Set<DemandasModel> foreing_demanda;
 
+     @Override
+     public Collection<? extends GrantedAuthority> getAuthorities(){
+      if (this.tipo_usuario == TipoUsuarioModel.ADMIN){
+       return List.of(
+               new SimpleGrantedAuthority("ROLE_ADMIN"),
+               new SimpleGrantedAuthority("ROLE_GESTOR"),
+               new SimpleGrantedAuthority("ROLE_COORDENADOR"),
+               new SimpleGrantedAuthority("ROLE_CONSULTOR")
+       );
+      } else if (this.tipo_usuario == TipoUsuarioModel.GESTOR) {
+       return List.of(
+               new SimpleGrantedAuthority("ROLE_GESTOR")
+       );
+      } else if (this.tipo_usuario == TipoUsuarioModel.COORDENADOR) {
+       return List.of(
+               new SimpleGrantedAuthority("ROLE_COORDENADOR")
+       );
+
+      } else if (this.tipo_usuario == TipoUsuarioModel.CONSULTOR) {
+       return List.of(
+               new SimpleGrantedAuthority("ROLE_CONSULTOR")
+      );
+
+      }
+      return null;
+     }
+
+      @Override
+      public String getPassword() {
+       return senha;
+      }
+
+      @Override
+      public String getUsername() {
+       return email;
+      }
+
+      @Override
+      public boolean isAccountNonExpired() {
+       return true;
+      }
+
+      @Override
+      public boolean isAccountNonLocked() {
+       return true;
+      }
+
+      @Override
+      public boolean isCredentialsNonExpired() {
+       return true;
+      }
+
+      @Override
+      public boolean isEnabled() {
+       return true;
+      }
 }

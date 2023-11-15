@@ -60,9 +60,9 @@ public class DemandasController {
         if (demandasRepository.findByTitulo(demandasDTOs.titulo()) != null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Demanda já cadastrado");
         }
-        if (usuariosRepository.findById(demandasDTOs.foreign_usuario()) == null){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Chave usuario incorreta");
-        }
+//        if (usuariosRepository.findById(demandasDTOs.foreign_usuario()) == null){
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Chave usuario incorreta");
+//        }
 
         DemandasModel novaDemanda = new DemandasModel();
         BeanUtils.copyProperties(demandasDTOs, novaDemanda);
