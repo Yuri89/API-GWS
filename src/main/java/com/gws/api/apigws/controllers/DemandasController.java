@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
@@ -70,17 +71,17 @@ public class DemandasController {
         String urlArquivo;
 
         try{
-            urlArquivo = fileUploadService.fazerUpload(demandasDTOs.anexo());
+            urlArquivo = fileUploadService.fazerUpload(demandasDTOs.copy_anexo());
         }catch (IOException e){
             throw new RuntimeException(e);
         }
 
         LocalDate data1;
-        LocalDate data2;
+        LocalDateTime data2 = LocalDateTime.now();
 
         try{
             data1 = converterDataTime.StringToDate(demandasDTOs.data_final());
-            data2 = converterDataTime.StringToDate(demandasDTOs.data_inicio());
+
         }catch (Exception e){
             throw new RuntimeException(e);
         }
@@ -107,17 +108,16 @@ public class DemandasController {
         String urlArquivo;
 
         try{
-            urlArquivo = fileUploadService.fazerUpload(demandasDTOs.anexo());
+            urlArquivo = fileUploadService.fazerUpload(demandasDTOs.copy_anexo());
         }catch (IOException e){
             throw new RuntimeException(e);
         }
 
         LocalDate data1;
-        LocalDate data2;
+        LocalDateTime data2 = LocalDateTime.now();
 
         try{
             data1 = converterDataTime.StringToDate(demandasDTOs.data_final());
-            data2 = converterDataTime.StringToDate(demandasDTOs.data_inicio());
         }catch (Exception e){
             throw new RuntimeException(e);
         }

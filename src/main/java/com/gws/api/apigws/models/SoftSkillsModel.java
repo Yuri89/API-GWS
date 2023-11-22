@@ -22,7 +22,7 @@ public class SoftSkillsModel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_softskill", nullable = false)
-    private UUID idSoftSkills;
+    private UUID id_softskills;
 
     @Column(nullable = false,unique = true)
     private String nome;

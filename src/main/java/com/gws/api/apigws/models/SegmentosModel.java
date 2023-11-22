@@ -22,7 +22,7 @@ public class SegmentosModel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_segmento", nullable = false)
-    private UUID idSegmentos;
+    private UUID id_segmentos;
 
     private String segmento;
 

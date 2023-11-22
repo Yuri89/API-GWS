@@ -22,7 +22,7 @@ public class ClientesModel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_cliente", nullable = false)
-    private UUID idClientes;
+    private UUID id_clientes;
 
     @Column(name = "nome_empresa")
     private String nome_empresa;

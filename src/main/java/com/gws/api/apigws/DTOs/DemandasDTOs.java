@@ -18,10 +18,9 @@ public record DemandasDTOs(
         @NotBlank String prioridade,
         @NotNull boolean privacidade,
         @NotBlank String status,
-        @NotBlank String data_inicio,
         @NotBlank String data_final,
         @NotNull int custo,
-        MultipartFile anexo,
+        MultipartFile copy_anexo,
 
         @NotNull Set<UUID> foreign_segmento,
         @NotNull UUID clientes,

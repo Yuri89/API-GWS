@@ -9,6 +9,7 @@ import lombok.Setter;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -42,7 +43,7 @@ public class DemandasModel implements Serializable {
     @Column(nullable = false,unique = false)
     private String status;
     @Column(nullable = false,unique = false)
-    private LocalDate data_inicio;
+    private LocalDateTime data_inicio;
     @Column(nullable = false,unique = false)
     private LocalDate data_final;
     @Column(nullable = false,unique = false)
