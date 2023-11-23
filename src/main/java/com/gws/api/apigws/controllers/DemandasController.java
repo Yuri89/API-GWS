@@ -5,8 +5,11 @@ import com.gws.api.apigws.DTOs.DemandasDTOs;
 import com.gws.api.apigws.DTOs.UsuariosDTOs;
 import com.gws.api.apigws.models.ClientesModel;
 import com.gws.api.apigws.models.DemandasModel;
+import com.gws.api.apigws.models.SegmentosModel;
+import com.gws.api.apigws.models.UsuarioModel;
 import com.gws.api.apigws.repositories.ClientesRepository;
 import com.gws.api.apigws.repositories.DemandasRepository;
+import com.gws.api.apigws.repositories.SegmentosRepository;
 import com.gws.api.apigws.repositories.UsuariosRepository;
 import com.gws.api.apigws.services.ConverterDataTime;
 import com.gws.api.apigws.services.FileUploadService;
@@ -27,6 +30,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.springframework.util.ClassUtils.isPresent;
+
 @RestController
 @RequestMapping(value = "/demandas")
 public class DemandasController {
@@ -38,6 +43,10 @@ public class DemandasController {
     ConverterDataTime converterDataTime;
     @Autowired
     UsuariosRepository usuariosRepository;
+    @Autowired
+    SegmentosRepository segmentosRepository;
+    @Autowired
+    ClientesRepository clientesRepository;
 
     @GetMapping
     public ResponseEntity<List<DemandasModel>> ListarDemandas(){
@@ -61,9 +70,34 @@ public class DemandasController {
         if (demandasRepository.findByTitulo(demandasDTOs.titulo()) != null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Demanda já cadastrado");
         }
-//        if (usuariosRepository.findById(demandasDTOs.foreign_usuario()) == null){
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Chave usuario incorreta");
-//        }
+
+        UsuarioModel usuarioModel = new UsuarioModel();
+        SegmentosModel segmentosModel = new SegmentosModel();
+        ClientesModel clientesModel = new ClientesModel();
+
+        var usuarios = usuariosRepository.findById(demandasDTOs.foreign_usuario());
+        var segmentos = segmentosRepository.findById(demandasDTOs.foreign_segmento());
+        var clientes = clientesRepository.findById(demandasDTOs.foreign_clientes());
+
+        if (usuarios != null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuarios não encontrados");
+        }else {
+            usuarioModel.setForeing_demanda(usuarios.getForeing_demanda());
+        }
+
+        if (segmentosRepository.findById(demandasDTOs.foreign_segmento()) != null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Segmentos não encontrados");
+        }else {
+            segmentosModel.setForeing_demanda(segmentos.getForeing_demanda());
+        }
+
+        if (clientesRepository.findById(demandasDTOs.foreign_segmento()) != null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Cliente não encontrado");
+        }else {
+            clientesModel.setForeign_demanda(clientes.get().getForeign_demanda());
+        }
+
+
 
         DemandasModel novaDemanda = new DemandasModel();
         BeanUtils.copyProperties(demandasDTOs, novaDemanda);
