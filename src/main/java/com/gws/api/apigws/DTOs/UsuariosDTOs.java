@@ -1,5 +1,6 @@
 package com.gws.api.apigws.DTOs;
 
+import com.gws.api.apigws.models.TipoUsuarioModel;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,7 +13,7 @@ import java.util.UUID;
 
 public record UsuariosDTOs(
         @NotBlank String nome,
-        @NotBlank String tipo_usuario,
+        TipoUsuarioModel tipo_usuario,
         @NotBlank String sobrenome,
         @NotBlank String telefone,
         @NotBlank String email,

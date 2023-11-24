@@ -5,12 +5,17 @@ import com.gws.api.apigws.DTOs.DemandasDTOs;
 import com.gws.api.apigws.DTOs.UsuariosDTOs;
 import com.gws.api.apigws.models.ClientesModel;
 import com.gws.api.apigws.models.DemandasModel;
+import com.gws.api.apigws.models.SegmentosModel;
+import com.gws.api.apigws.models.UsuarioModel;
 import com.gws.api.apigws.repositories.ClientesRepository;
 import com.gws.api.apigws.repositories.DemandasRepository;
+import com.gws.api.apigws.repositories.SegmentosRepository;
 import com.gws.api.apigws.repositories.UsuariosRepository;
 import com.gws.api.apigws.services.ConverterDataTime;
 import com.gws.api.apigws.services.FileUploadService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,13 +24,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping(value = "/demandas")
@@ -38,6 +42,11 @@ public class DemandasController {
     ConverterDataTime converterDataTime;
     @Autowired
     UsuariosRepository usuariosRepository;
+    @Autowired
+    SegmentosRepository segmentosRepository;
+    @Autowired
+    ClientesRepository clientesRepository;
+
 
     @GetMapping
     public ResponseEntity<List<DemandasModel>> ListarDemandas(){
@@ -57,12 +66,30 @@ public class DemandasController {
     }
 
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<Object> criarCliente(@ModelAttribute @Valid DemandasDTOs demandasDTOs, UsuariosDTOs usuariosDTOs){
+    public ResponseEntity<Object> criarDemanda(@ModelAttribute @Valid DemandasDTOs demandasDTOs, UsuariosDTOs usuariosDTOs){
         if (demandasRepository.findByTitulo(demandasDTOs.titulo()) != null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Demanda já cadastrado");
         }
-//        if (usuariosRepository.findById(demandasDTOs.foreign_usuario()) == null){
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Chave usuario incorreta");
+
+        DemandasModel demandasModel = new DemandasModel();
+        UsuarioModel usuarioModel = new UsuarioModel();
+        SegmentosModel segmentosModel = new SegmentosModel();
+        ClientesModel clientesModel = new ClientesModel();
+
+        List<UsuarioModel> usuariosList = usuariosRepository.findAllById(demandasDTOs.id_usuario());
+        Set<UsuarioModel> usuariosAssociados = new HashSet<>(usuariosList);
+
+        var segmentos = segmentosRepository.findAllById(demandasDTOs.id_segmento());
+        var cliente = clientesRepository.findById(demandasDTOs.id_cliente())
+                .orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado com o ID: " + demandasDTOs.id_cliente()));
+
+
+
+//        if (usuarios.contains(usuarioModel)){
+//            demandasModel.setId_usuario(usuarios.get());
+//        }
+//        if (segmentos.contains(segmentosModel)){
+//            demandasModel.setId_segmento(segmentos.get());
 //        }
 
         DemandasModel novaDemanda = new DemandasModel();
@@ -89,6 +116,9 @@ public class DemandasController {
         novaDemanda.setAnexo(urlArquivo);
         novaDemanda.setData_final(data1);
         novaDemanda.setData_inicio(data2);
+        novaDemanda.setId_cliente(cliente);
+
+        novaDemanda.setId_usuarios(usuariosAssociados);
 
 
         return ResponseEntity.status(HttpStatus.CREATED).body(demandasRepository.save(novaDemanda));

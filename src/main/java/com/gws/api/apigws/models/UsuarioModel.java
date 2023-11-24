@@ -47,24 +47,24 @@ import java.util.*;
     private String url_img;
 
 
-    @ManyToMany
-    @JoinTable(
-        name = "tb_softskills_usuarios",
-        joinColumns = @JoinColumn(name = "id_usuario"),
-       inverseJoinColumns = @JoinColumn(name = "id_softskill")
-    )
-    private Set<SoftSkillsModel> foreign_softskill = new HashSet<>();
-
-    @ManyToMany
-    @JoinTable(
-         name = "tb_hardskills_usuarios",
-         joinColumns = @JoinColumn(name = "id_usuario"),
-         inverseJoinColumns = @JoinColumn(name = "id_hardskill")
-    )
-    private Set<HardSkillsModel> foreign_hardskill;
-
-//    @ManyToMany(mappedBy = "foreign_demanda")
-//    private Set<DemandasModel> foreing_demanda;
+//    @ManyToMany
+//    @JoinTable(
+//        name = "tb_softskills_usuarios",
+//        joinColumns = @JoinColumn(name = "id_usuario"),
+//       inverseJoinColumns = @JoinColumn(name = "id_softskill")
+//    )
+//    private Set<SoftSkillsModel> id_softskill = new HashSet<>();
+//
+//    @ManyToMany
+//    @JoinTable(
+//         name = "tb_hardskills_usuarios",
+//         joinColumns = @JoinColumn(name = "id_usuario"),
+//         inverseJoinColumns = @JoinColumn(name = "id_hardskill")
+//    )
+//    private Set<HardSkillsModel> id_hardskill = new HashSet<>();
+//
+     @ManyToMany(mappedBy = "id_usuarios")
+     private Set<DemandasModel> demandas = new HashSet<>();
 
      @Override
      public Collection<? extends GrantedAuthority> getAuthorities(){
@@ -122,4 +122,6 @@ import java.util.*;
       public boolean isEnabled() {
        return true;
       }
+
+
 }

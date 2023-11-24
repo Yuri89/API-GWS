@@ -54,22 +54,13 @@ public class DemandasModel implements Serializable {
 
     @ManyToMany
     @JoinTable(
-            name = "tb_segmentos_demandas",
+            name = "tb_usuarios_demandas",
             joinColumns = @JoinColumn(name = "id_demanda"),
-            inverseJoinColumns = @JoinColumn(name = "id_segmento")
+            inverseJoinColumns = @JoinColumn(name = "id_usuario")
     )
-    private Set<SegmentosModel> foreign_segmento;
-
-//    @ManyToMany
-//    @JoinTable(
-//            name = "tb_usuarios_demandas",
-//            joinColumns = @JoinColumn(name = "id_demanda"),
-//            inverseJoinColumns = @JoinColumn(name = "id_usuario")
-//    )
-//    private Set<UsuarioModel> foreign_usuario;
-
+    private Set<UsuarioModel> id_usuarios = new HashSet<>();
     @ManyToOne
     @JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente")
-    private ClientesModel cliente;
+    private ClientesModel id_cliente;
 
 }

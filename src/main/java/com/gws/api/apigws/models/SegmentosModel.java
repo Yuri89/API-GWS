@@ -26,7 +26,7 @@ public class SegmentosModel implements Serializable {
 
     private String segmento;
 
-    @ManyToMany(mappedBy = "foreign_segmento")
-    private Set<DemandasModel> foreing_demanda = new HashSet<>();
+//    @ManyToMany(mappedBy = "id_demanda")
+//    private Set<DemandasModel> id_demanda = new HashSet<>();
 
 }

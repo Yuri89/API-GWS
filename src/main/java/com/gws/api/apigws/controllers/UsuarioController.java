@@ -54,6 +54,7 @@ public class UsuarioController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuario já cadastrado");
         }
 
+
         UsuarioModel novoUsuario = new UsuarioModel();
         BeanUtils.copyProperties(usuariosDtos, novoUsuario);
 

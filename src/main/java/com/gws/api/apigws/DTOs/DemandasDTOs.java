@@ -22,9 +22,9 @@ public record DemandasDTOs(
         @NotNull int custo,
         MultipartFile copy_anexo,
 
-        @NotNull Set<UUID> foreign_segmento,
-        @NotNull UUID clientes,
-        @NotNull Set<UUID> foreign_usuario
+        Set<UUID> id_segmento,
+        UUID id_cliente,
+        Set<UUID> id_usuario
 
 ) {
 
