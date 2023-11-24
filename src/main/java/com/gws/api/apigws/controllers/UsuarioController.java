@@ -77,7 +77,7 @@ public class UsuarioController {
         }
 
         novoUsuario.setUrl_img(urlImagem);
-        novoUsuario.setDataCadastro(dataAtual);
+        novoUsuario.setData_cadastro(dataAtual);
         novoUsuario.setHoras_semanais(horassemanais);
         novoUsuario.setData_ferias(dataferias);
 

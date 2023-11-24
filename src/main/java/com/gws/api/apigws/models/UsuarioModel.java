@@ -63,8 +63,8 @@ import java.util.*;
     )
     private Set<HardSkillsModel> foreign_hardskill;
 
-    @ManyToMany(mappedBy = "foreign_demanda")
-    private Set<DemandasModel> foreing_demanda;
+    @ManyToMany(mappedBy = "id_demanda")
+    private Set<DemandasModel> id_demanda;
 
      @Override
      public Collection<? extends GrantedAuthority> getAuthorities(){

@@ -28,6 +28,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.springframework.util.ClassUtils.isPresent;
@@ -75,27 +76,27 @@ public class DemandasController {
         SegmentosModel segmentosModel = new SegmentosModel();
         ClientesModel clientesModel = new ClientesModel();
 
-        var usuarios = usuariosRepository.findById(demandasDTOs.foreign_usuario());
-        var segmentos = segmentosRepository.findById(demandasDTOs.foreign_segmento());
-        var clientes = clientesRepository.findById(demandasDTOs.foreign_clientes());
+//        var usuarios = usuariosRepository.findById(demandasDTOs.foreign_usuario());
+//        var segmentos = segmentosRepository.findById(demandasDTOs.foreign_segmento());
+//        var clientes = clientesRepository.findById(demandasDTOs.foreign_clientes());
 
-        if (usuarios != null){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuarios não encontrados");
-        }else {
-            usuarioModel.setForeing_demanda(usuarios.getForeing_demanda());
-        }
-
-        if (segmentosRepository.findById(demandasDTOs.foreign_segmento()) != null){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Segmentos não encontrados");
-        }else {
-            segmentosModel.setForeing_demanda(segmentos.getForeing_demanda());
-        }
-
-        if (clientesRepository.findById(demandasDTOs.foreign_segmento()) != null){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Cliente não encontrado");
-        }else {
-            clientesModel.setForeign_demanda(clientes.get().getForeign_demanda());
-        }
+//        if (!usuarios.isPresent()){
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuarios não encontrados");
+//        }else {
+//            usuarioModel.setId_demanda(usuarios.getId_usuario());
+//        }
+//
+//        if (!segmentos.isPresent()){
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Segmentos não encontrados");
+//        }else {
+//            segmentosModel.setForeing_demanda(segmentos.getId_segmentos());
+//        }
+//
+//        if (!clientes.isPresent()){
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Cliente não encontrado");
+//        }else {
+//            clientesModel.setForeign_demanda(clientes.get().getForeign_demanda());
+//        }
 
 
 

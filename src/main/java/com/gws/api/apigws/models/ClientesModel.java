@@ -36,8 +36,8 @@ public class ClientesModel implements Serializable {
     private String url_img;
 
     @ManyToOne
-    @JoinColumn(name = "foreign_demanda", referencedColumnName = "id_demanda")
-    private DemandasModel foreign_demanda;
+    @JoinColumn(name = "id_demanda", referencedColumnName = "id_demanda")
+    private DemandasModel id_demanda;
 
 
 }
