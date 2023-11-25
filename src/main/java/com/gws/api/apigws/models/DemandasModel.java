@@ -59,6 +59,14 @@ public class DemandasModel implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "id_usuario")
     )
     private Set<UsuarioModel> id_usuarios = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "tb_segmentos_demandas",
+            joinColumns = @JoinColumn(name = "id_demanda"),
+            inverseJoinColumns = @JoinColumn(name = "id_segmento")
+    )
+    private Set<SegmentosModel> id_segmentos = new HashSet<>();
     @ManyToOne
     @JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente")
     private ClientesModel id_cliente;

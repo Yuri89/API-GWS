@@ -79,18 +79,14 @@ public class DemandasController {
         List<UsuarioModel> usuariosList = usuariosRepository.findAllById(demandasDTOs.id_usuario());
         Set<UsuarioModel> usuariosAssociados = new HashSet<>(usuariosList);
 
-        var segmentos = segmentosRepository.findAllById(demandasDTOs.id_segmento());
+        List<SegmentosModel> segmentosList = segmentosRepository.findAllById(demandasDTOs.id_segmento());
+        Set<SegmentosModel> segmentosAssociados = new HashSet<>(segmentosList);
+
         var cliente = clientesRepository.findById(demandasDTOs.id_cliente())
                 .orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado com o ID: " + demandasDTOs.id_cliente()));
 
 
 
-//        if (usuarios.contains(usuarioModel)){
-//            demandasModel.setId_usuario(usuarios.get());
-//        }
-//        if (segmentos.contains(segmentosModel)){
-//            demandasModel.setId_segmento(segmentos.get());
-//        }
 
         DemandasModel novaDemanda = new DemandasModel();
         BeanUtils.copyProperties(demandasDTOs, novaDemanda);
@@ -119,6 +115,7 @@ public class DemandasController {
         novaDemanda.setId_cliente(cliente);
 
         novaDemanda.setId_usuarios(usuariosAssociados);
+        novaDemanda.setId_segmentos(segmentosAssociados);
 
 
         return ResponseEntity.status(HttpStatus.CREATED).body(demandasRepository.save(novaDemanda));
