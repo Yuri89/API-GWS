@@ -9,6 +9,7 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Set;
 import java.util.UUID;
 
 public record UsuariosDTOs(
@@ -26,9 +27,9 @@ public record UsuariosDTOs(
         MultipartFile foto,
         String descricao,
 
-        UUID demandas,
-        UUID hardskills,
-        UUID softSkills
+        Set<UUID> id_demandas,
+        Set<UUID> id_hardskills,
+        Set<UUID> id_softSkills
 
         ) {
 
