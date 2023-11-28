@@ -27,8 +27,4 @@
     <!-- Configuração específica para o pacote org.hibernate -->
     <logger name="org.hibernate" level="warn" />
 
-<<<<<<< HEAD
 </configuration>
-=======
-</configuration>
->>>>>>> dfe9dae7ab494b91bba808694f33f229b5ac2fc6

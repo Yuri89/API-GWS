@@ -80,7 +80,11 @@ public class DemandasController {
         List<SegmentosModel> segmentosList = segmentosRepository.findAllById(demandasDTOs.id_segmento());
         Set<SegmentosModel> segmentosAssociados = new HashSet<>(segmentosList);
 
+<<<<<<< HEAD
         Optional<ClientesModel> clienteOptional = clientesRepository.findById(demandasDTOs.id_cliente());
+=======
+        var cliente = clientesRepository.findById(demandasDTOs.id_cliente());
+>>>>>>> dfe9dae7ab494b91bba808694f33f229b5ac2fc6
 
 
 
@@ -109,6 +113,7 @@ public class DemandasController {
         novaDemanda.setData_final(data1);
         novaDemanda.setData_inicio(data2);
 
+<<<<<<< HEAD
 
 
         if (clienteOptional.isPresent()){
@@ -116,10 +121,15 @@ public class DemandasController {
             novaDemanda.setId_cliente(cliente);
         }else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Cliente não encontrado");
+=======
+        if (cliente.isPresent()) {
+            novaDemanda.setId_cliente(cliente.get());
+>>>>>>> dfe9dae7ab494b91bba808694f33f229b5ac2fc6
         }
 
         if (usuariosAssociados.containsAll(usuariosList)){
             novaDemanda.setId_usuarios(usuariosAssociados);
+<<<<<<< HEAD
         }else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuarios não encontrado");
         }
@@ -131,6 +141,12 @@ public class DemandasController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Segmentos não encontrado");
         }
 
+=======
+        }
+        if (usuariosAssociados.containsAll(usuariosList)){
+            novaDemanda.setId_segmentos(segmentosAssociados);
+        }
+>>>>>>> dfe9dae7ab494b91bba808694f33f229b5ac2fc6
 
 
         return ResponseEntity.status(HttpStatus.CREATED).body(demandasRepository.save(novaDemanda));

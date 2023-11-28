@@ -23,6 +23,11 @@ public class FileUploadService {
     }
 
 
+    public Path getDiretorioImg() {
+        return diretorioImg;
+    }
+
+
     public String fazerUpload(MultipartFile imagem) throws IOException {
         if (imagem.isEmpty()){
             System.out.println("imagem vazia");
