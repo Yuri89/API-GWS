@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -44,6 +45,11 @@ public class UsuarioController {
         if (usuarioBuscado.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario não encontrado");
         }
+
+        Path urlImg = fileUploadService.getDiretorioImg();
+        UsuarioModel usuarioimg = usuarioBuscado.get();
+        UsuarioModel usuario = usuarioBuscado.get();
+        usuario.setUrl_img(urlImg+ "\\" +usuarioimg.getUrl_img());
 
         return ResponseEntity.status(HttpStatus.OK).body(usuarioBuscado.get());
     }

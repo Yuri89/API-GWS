@@ -71,20 +71,13 @@ public class DemandasController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Demanda já cadastrado");
         }
 
-        DemandasModel demandasModel = new DemandasModel();
-        UsuarioModel usuarioModel = new UsuarioModel();
-        SegmentosModel segmentosModel = new SegmentosModel();
-        ClientesModel clientesModel = new ClientesModel();
-
         List<UsuarioModel> usuariosList = usuariosRepository.findAllById(demandasDTOs.id_usuario());
         Set<UsuarioModel> usuariosAssociados = new HashSet<>(usuariosList);
 
         List<SegmentosModel> segmentosList = segmentosRepository.findAllById(demandasDTOs.id_segmento());
         Set<SegmentosModel> segmentosAssociados = new HashSet<>(segmentosList);
 
-        var cliente = clientesRepository.findById(demandasDTOs.id_cliente())
-                .orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado com o ID: " + demandasDTOs.id_cliente()));
-
+        var cliente = clientesRepository.findById(demandasDTOs.id_cliente());
 
 
 
@@ -112,10 +105,17 @@ public class DemandasController {
         novaDemanda.setAnexo(urlArquivo);
         novaDemanda.setData_final(data1);
         novaDemanda.setData_inicio(data2);
-        novaDemanda.setId_cliente(cliente);
 
-        novaDemanda.setId_usuarios(usuariosAssociados);
-        novaDemanda.setId_segmentos(segmentosAssociados);
+        if (cliente.isPresent()) {
+            novaDemanda.setId_cliente(cliente.get());
+        }
+
+        if (usuariosAssociados.containsAll(usuariosList)){
+            novaDemanda.setId_usuarios(usuariosAssociados);
+        }
+        if (usuariosAssociados.containsAll(usuariosList)){
+            novaDemanda.setId_segmentos(segmentosAssociados);
+        }
 
 
         return ResponseEntity.status(HttpStatus.CREATED).body(demandasRepository.save(novaDemanda));

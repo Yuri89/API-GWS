@@ -55,17 +55,19 @@ public class DemandasModel implements Serializable {
     @ManyToMany
     @JoinTable(
             name = "tb_usuarios_demandas",
-            joinColumns = @JoinColumn(name = "id_demanda"),
-            inverseJoinColumns = @JoinColumn(name = "id_usuario")
+            joinColumns = @JoinColumn(name = "id_demanda",unique = false),
+            inverseJoinColumns = @JoinColumn(name = "id_usuario",unique = false)
     )
+    @org.hibernate.annotations.Index(name = "idx_usuarios_demandas")
     private Set<UsuarioModel> id_usuarios = new HashSet<>();
 
     @ManyToMany
     @JoinTable(
             name = "tb_segmentos_demandas",
-            joinColumns = @JoinColumn(name = "id_demanda"),
-            inverseJoinColumns = @JoinColumn(name = "id_segmento")
+            joinColumns = @JoinColumn(name = "id_demanda",unique = false),
+            inverseJoinColumns = @JoinColumn(name = "id_segmento",unique = false)
     )
+    @org.hibernate.annotations.Index(name = "idx_segmentos_demandas")
     private Set<SegmentosModel> id_segmentos = new HashSet<>();
     @ManyToOne
     @JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente")

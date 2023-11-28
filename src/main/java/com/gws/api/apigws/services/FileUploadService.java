@@ -16,7 +16,13 @@ import java.time.format.DateTimeFormatter;
 
 @Service
 public class FileUploadService {
+
     private final Path diretorioImg = Paths.get(System.getProperty("user.dir") + "\\src\\main\\resources\\static\\img");
+
+    public Path getDiretorioImg() {
+        return diretorioImg;
+    }
+
 
     public String fazerUpload(MultipartFile imagem) throws IOException {
         if (imagem.isEmpty()){

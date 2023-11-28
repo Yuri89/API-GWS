@@ -26,9 +26,9 @@ public record UsuariosDTOs(
         MultipartFile foto,
         String descricao,
 
-        UUID demandas,
-        UUID hardskills,
-        UUID softSkills
+        UUID id_demandas,
+        UUID id_hardskills,
+        UUID id_softSkills
 
         ) {
 
