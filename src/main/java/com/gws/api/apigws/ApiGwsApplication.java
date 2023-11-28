@@ -6,7 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@OpenAPIDefinition(info = @Info(title = "API GWS", version = "1.5.0",description = "EndPoints da Gestão Workload Squads"))
+@OpenAPIDefinition(info = @Info(title = "API VSConnect", version = "1.0.0",description = "Swagger da API do VSConnect"))
 public class ApiGwsApplication {
 
 	public static void main(String[] args) {

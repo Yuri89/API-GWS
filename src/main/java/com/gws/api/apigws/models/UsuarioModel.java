@@ -47,26 +47,24 @@ import java.util.*;
     private String url_img;
 
 
-    @ManyToMany
-    @JoinTable(
-        name = "tb_softskills_usuarios",
-        joinColumns = @JoinColumn(name = "id_usuario",unique = false),
-       inverseJoinColumns = @JoinColumn(name = "id_softskill",unique = false)
-    )
-    @org.hibernate.annotations.Index(name = "idx_softskills_usuario")
-    private Set<SoftSkillsModel> id_softskill = new HashSet<>();
-
-    @ManyToMany
-    @JoinTable(
-         name = "tb_hardskills_usuarios",
-         joinColumns = @JoinColumn(name = "id_usuario",unique = false),
-         inverseJoinColumns = @JoinColumn(name = "id_hardskill",unique = false)
-    )
-    @org.hibernate.annotations.Index(name = "idx_hardskills_usuario")
-    private Set<HardSkillsModel> id_hardskill = new HashSet<>();
-
+//    @ManyToMany
+//    @JoinTable(
+//        name = "tb_softskills_usuarios",
+//        joinColumns = @JoinColumn(name = "id_usuario"),
+//       inverseJoinColumns = @JoinColumn(name = "id_softskill")
+//    )
+//    private Set<SoftSkillsModel> id_softskill = new HashSet<>();
+//
+//    @ManyToMany
+//    @JoinTable(
+//         name = "tb_hardskills_usuarios",
+//         joinColumns = @JoinColumn(name = "id_usuario"),
+//         inverseJoinColumns = @JoinColumn(name = "id_hardskill")
+//    )
+//    private Set<HardSkillsModel> id_hardskill = new HashSet<>();
+//
      @ManyToMany(mappedBy = "id_usuarios")
-     private Set<DemandasModel> id_demandas = new HashSet<>();
+     private Set<DemandasModel> demandas = new HashSet<>();
 
      @Override
      public Collection<? extends GrantedAuthority> getAuthorities(){

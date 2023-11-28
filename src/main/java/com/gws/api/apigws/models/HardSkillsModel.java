@@ -27,6 +27,6 @@ public class HardSkillsModel implements Serializable {
     @Column(nullable = false,unique = true)
     private String nome;
 
-    @ManyToMany(mappedBy = "id_hardskill")
-    private Set<UsuarioModel> id_usuario = new HashSet<>();
+//    @ManyToMany(mappedBy = "id_hardskill")
+//    private Set<UsuarioModel> id_usuario = new HashSet<>();
 }

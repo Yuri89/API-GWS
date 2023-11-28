@@ -13,13 +13,11 @@ import com.gws.api.apigws.repositories.SegmentosRepository;
 import com.gws.api.apigws.repositories.UsuariosRepository;
 import com.gws.api.apigws.services.ConverterDataTime;
 import com.gws.api.apigws.services.FileUploadService;
-import com.mysql.cj.xdevapi.Client;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.util.Optionals;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +25,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.swing.*;
-import javax.swing.text.html.Option;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -74,17 +71,20 @@ public class DemandasController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Demanda já cadastrado");
         }
 
+        DemandasModel demandasModel = new DemandasModel();
+        UsuarioModel usuarioModel = new UsuarioModel();
+        SegmentosModel segmentosModel = new SegmentosModel();
+        ClientesModel clientesModel = new ClientesModel();
+
         List<UsuarioModel> usuariosList = usuariosRepository.findAllById(demandasDTOs.id_usuario());
         Set<UsuarioModel> usuariosAssociados = new HashSet<>(usuariosList);
 
         List<SegmentosModel> segmentosList = segmentosRepository.findAllById(demandasDTOs.id_segmento());
         Set<SegmentosModel> segmentosAssociados = new HashSet<>(segmentosList);
 
-<<<<<<< HEAD
-        Optional<ClientesModel> clienteOptional = clientesRepository.findById(demandasDTOs.id_cliente());
-=======
-        var cliente = clientesRepository.findById(demandasDTOs.id_cliente());
->>>>>>> dfe9dae7ab494b91bba808694f33f229b5ac2fc6
+        var cliente = clientesRepository.findById(demandasDTOs.id_cliente())
+                .orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado com o ID: " + demandasDTOs.id_cliente()));
+
 
 
 
@@ -112,41 +112,10 @@ public class DemandasController {
         novaDemanda.setAnexo(urlArquivo);
         novaDemanda.setData_final(data1);
         novaDemanda.setData_inicio(data2);
+        novaDemanda.setId_cliente(cliente);
 
-<<<<<<< HEAD
-
-
-        if (clienteOptional.isPresent()){
-            ClientesModel cliente = clienteOptional.get();
-            novaDemanda.setId_cliente(cliente);
-        }else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Cliente não encontrado");
-=======
-        if (cliente.isPresent()) {
-            novaDemanda.setId_cliente(cliente.get());
->>>>>>> dfe9dae7ab494b91bba808694f33f229b5ac2fc6
-        }
-
-        if (usuariosAssociados.containsAll(usuariosList)){
-            novaDemanda.setId_usuarios(usuariosAssociados);
-<<<<<<< HEAD
-        }else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuarios não encontrado");
-        }
-
-
-        if (segmentosAssociados.containsAll(segmentosList)){
-            novaDemanda.setId_segmentos(segmentosAssociados);
-        }else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Segmentos não encontrado");
-        }
-
-=======
-        }
-        if (usuariosAssociados.containsAll(usuariosList)){
-            novaDemanda.setId_segmentos(segmentosAssociados);
-        }
->>>>>>> dfe9dae7ab494b91bba808694f33f229b5ac2fc6
+        novaDemanda.setId_usuarios(usuariosAssociados);
+        novaDemanda.setId_segmentos(segmentosAssociados);
 
 
         return ResponseEntity.status(HttpStatus.CREATED).body(demandasRepository.save(novaDemanda));
@@ -159,18 +128,6 @@ public class DemandasController {
         if (buscandoDemanda.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Demanda não encontrado");
         }
-
-
-        List<UsuarioModel> usuariosList = usuariosRepository.findAllById(demandasDTOs.id_usuario());
-        Set<UsuarioModel> usuariosAssociados = new HashSet<>(usuariosList);
-
-        List<SegmentosModel> segmentosList = segmentosRepository.findAllById(demandasDTOs.id_segmento());
-        Set<SegmentosModel> segmentosAssociados = new HashSet<>(segmentosList);
-
-        Optional<ClientesModel> clienteOptional = clientesRepository.findById(demandasDTOs.id_cliente());
-
-
-
 
         DemandasModel demandaEditado = new DemandasModel();
         BeanUtils.copyProperties(demandasDTOs, demandaEditado);
@@ -196,26 +153,6 @@ public class DemandasController {
         demandaEditado.setData_final(data1);
         demandaEditado.setData_inicio(data2);
 
-
-        if (clienteOptional.isPresent()){
-            ClientesModel cliente = clienteOptional.get();
-            demandaEditado.setId_cliente(cliente);
-        }else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Cliente não encontrado");
-        }
-
-        if (usuariosAssociados.containsAll(usuariosList)){
-            demandaEditado.setId_usuarios(usuariosAssociados);
-        }else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuarios não encontrado");
-        }
-
-
-        if (segmentosAssociados.containsAll(segmentosList)){
-            demandaEditado.setId_segmentos(segmentosAssociados);
-        }else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Segmentos não encontrado");
-        }
 
 
         return ResponseEntity.status(HttpStatus.CREATED).body(demandasRepository.save(demandaEditado));
