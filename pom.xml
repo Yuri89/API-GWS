@@ -66,7 +66,30 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
-    </dependencies>
+
+		<!-- Adicione as dependências do Spring Boot, SLF4J e Logback -->
+
+			<!-- Dependência do Spring Boot -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+
+			<!-- Dependência do SLF4J API -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+
+			<!-- Dependência do Logback (implementação compatível com o SLF4J) -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+		</dependency>
+
+
+
+	</dependencies>
 
 	<build>
 		<plugins>

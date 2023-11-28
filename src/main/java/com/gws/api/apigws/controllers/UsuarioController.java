@@ -60,6 +60,11 @@ public class UsuarioController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario não encontrado");
         }
 
+        Path urlImg = fileUploadService.getDiretorioImg();
+        UsuarioModel usuarioimg = usuarioBuscado.get();
+        UsuarioModel usuario = usuarioBuscado.get();
+        usuario.setUrl_img(urlImg+ "\\" +usuarioimg.getUrl_img());
+
         return ResponseEntity.status(HttpStatus.OK).body(usuarioBuscado.get());
     }
 
