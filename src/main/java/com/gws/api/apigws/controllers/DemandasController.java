@@ -25,6 +25,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.function.EntityResponse;
 
 import javax.swing.*;
 import javax.swing.text.html.Option;
@@ -70,9 +71,15 @@ public class DemandasController {
 
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<Object> criarDemanda(@ModelAttribute @Valid DemandasDTOs demandasDTOs, UsuariosDTOs usuariosDTOs){
+
         if (demandasRepository.findByTitulo(demandasDTOs.titulo()) != null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Demanda já cadastrado");
         }
+        if (demandasDTOs.custo() >= 1_0000_000_000.00D){
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Valor muito alto");
+        }
+
+
 
         List<UsuarioModel> usuariosList = usuariosRepository.findAllById(demandasDTOs.id_usuario());
         Set<UsuarioModel> usuariosAssociados = new HashSet<>(usuariosList);
@@ -105,6 +112,7 @@ public class DemandasController {
             throw new RuntimeException(e);
         }
 
+
         novaDemanda.setAnexo(urlArquivo);
         novaDemanda.setData_final(data1);
         novaDemanda.setData_inicio(data2);
@@ -117,14 +125,11 @@ public class DemandasController {
         }else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Cliente não encontrado");
         }
-
         if (usuariosAssociados.containsAll(usuariosList)){
             novaDemanda.setId_usuarios(usuariosAssociados);
         }else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuarios não encontrado");
         }
-
-
         if (segmentosAssociados.containsAll(segmentosList)){
             novaDemanda.setId_segmentos(segmentosAssociados);
         }else {
@@ -142,6 +147,9 @@ public class DemandasController {
 
         if (buscandoDemanda.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Demanda não encontrado");
+        }
+        if (demandasDTOs.custo() >= 1_0000_000_000.00D){
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Valor muito alto");
         }
 
 
