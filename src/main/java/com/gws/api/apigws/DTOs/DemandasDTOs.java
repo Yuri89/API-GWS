@@ -21,9 +21,9 @@ public record DemandasDTOs(
         @NotNull double custo,
         MultipartFile copy_anexo,
 
-        Set<UUID> id_segmento,
+        List<String> id_segmento,
         UUID id_cliente,
-        Set<UUID> id_usuario
+        List<String> id_usuario
 
 ) {
 

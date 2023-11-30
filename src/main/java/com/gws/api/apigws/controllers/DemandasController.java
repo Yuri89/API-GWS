@@ -34,6 +34,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/demandas")
@@ -70,7 +71,7 @@ public class DemandasController {
     }
 
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<Object> criarDemanda(@ModelAttribute @Valid DemandasDTOs demandasDTOs, UsuariosDTOs usuariosDTOs){
+    public ResponseEntity<Object> criarDemanda(@ModelAttribute @Valid DemandasDTOs demandasDTOs){
 
         if (demandasRepository.findByTitulo(demandasDTOs.titulo()) != null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Demanda já cadastrado");
@@ -80,11 +81,18 @@ public class DemandasController {
         }
 
 
+        List<UUID> usuariosConvert = demandasDTOs.id_usuario().stream()
+                .map(UUID::fromString)
+                .collect(Collectors.toList());
 
-        List<UsuarioModel> usuariosList = usuariosRepository.findAllById(demandasDTOs.id_usuario());
+        List<UsuarioModel> usuariosList = usuariosRepository.findAllById(usuariosConvert);
         Set<UsuarioModel> usuariosAssociados = new HashSet<>(usuariosList);
 
-        List<SegmentosModel> segmentosList = segmentosRepository.findAllById(demandasDTOs.id_segmento());
+        List<UUID> segmentosConvert = demandasDTOs.id_segmento().stream()
+                .map(UUID::fromString)
+                .collect(Collectors.toList());
+
+        List<SegmentosModel> segmentosList = segmentosRepository.findAllById(segmentosConvert);
         Set<SegmentosModel> segmentosAssociados = new HashSet<>(segmentosList);
 
         Optional<ClientesModel> clienteOptional = clientesRepository.findById(demandasDTOs.id_cliente());
@@ -153,10 +161,18 @@ public class DemandasController {
         }
 
 
-        List<UsuarioModel> usuariosList = usuariosRepository.findAllById(demandasDTOs.id_usuario());
+        List<UUID> usuariosConvert = demandasDTOs.id_usuario().stream()
+                .map(UUID::fromString)
+                .collect(Collectors.toList());
+
+        List<UsuarioModel> usuariosList = usuariosRepository.findAllById(usuariosConvert);
         Set<UsuarioModel> usuariosAssociados = new HashSet<>(usuariosList);
 
-        List<SegmentosModel> segmentosList = segmentosRepository.findAllById(demandasDTOs.id_segmento());
+        List<UUID> segmentosConvert = demandasDTOs.id_segmento().stream()
+                .map(UUID::fromString)
+                .collect(Collectors.toList());
+
+        List<SegmentosModel> segmentosList = segmentosRepository.findAllById(segmentosConvert);
         Set<SegmentosModel> segmentosAssociados = new HashSet<>(segmentosList);
 
         Optional<ClientesModel> clienteOptional = clientesRepository.findById(demandasDTOs.id_cliente());
