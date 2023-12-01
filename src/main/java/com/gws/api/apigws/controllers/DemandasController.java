@@ -55,6 +55,7 @@ public class DemandasController {
 
     @GetMapping
     public ResponseEntity<List<DemandasModel>> ListarDemandas(){
+
         return ResponseEntity.status(HttpStatus.OK).body(demandasRepository.findAll());
     }
 

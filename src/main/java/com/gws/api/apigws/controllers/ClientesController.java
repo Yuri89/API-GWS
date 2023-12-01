@@ -1,5 +1,6 @@
 package com.gws.api.apigws.controllers;
 
+import com.gws.api.apigws.models.UsuarioModel;
 import com.gws.api.apigws.services.FileUploadService;
 import com.gws.api.apigws.DTOs.ClientesDTOs;
 import com.gws.api.apigws.models.ClientesModel;
@@ -30,6 +31,15 @@ public class ClientesController {
 
     @GetMapping
     public ResponseEntity<List<ClientesModel>> ListarClientes(){
+
+        for (ClientesModel clientes : clientesRepository.findAll()) {
+            String fileFoto = fileUploadService.getDiretorioImg().toString();
+            String strFoto = clientes.getUrl_img();
+
+            String linkFoto = fileFoto+strFoto;
+            clientes.setUrl_img(linkFoto);
+        }
+
         return ResponseEntity.status(HttpStatus.OK).body(clientesRepository.findAll());
     }
 
@@ -41,6 +51,13 @@ public class ClientesController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado");
         }
 
+        ClientesModel clientes = clientesRepository.findById();
+
+        String fileFoto = fileUploadService.getDiretorioImg().toString();
+        String strFoto = clientes.getUrl_img();
+
+        String linkFoto = fileFoto+strFoto;
+        clientes.setUrl_img(linkFoto);
 
         return ResponseEntity.status(HttpStatus.OK).body(buscandoCliente.get());
     }

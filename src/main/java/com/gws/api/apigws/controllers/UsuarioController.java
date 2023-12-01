@@ -51,6 +51,14 @@ public class UsuarioController {
 
     @GetMapping
     public ResponseEntity<List<UsuarioModel>> listarUsuarios(){
+
+        for (UsuarioModel usuario : usuarioRepository.findAll()) {
+            String fileFoto = fileUploadService.getDiretorioImg().toString();
+            String strFoto = usuario.getUrl_img();
+
+            String linkFoto = fileFoto+strFoto;
+            usuario.setUrl_img(linkFoto);
+        }
         return ResponseEntity.status(HttpStatus.OK).body(usuarioRepository.findAll());
     }
 
