@@ -72,6 +72,7 @@ public class DemandasModel implements Serializable {
     )
     @org.hibernate.annotations.Index(name = "idx_demanda_segmento")
     private Set<SegmentosModel> id_segmentos = new HashSet<>();
+
     @ManyToOne
     @JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente")
     private ClientesModel id_cliente;

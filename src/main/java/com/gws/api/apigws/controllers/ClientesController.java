@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -51,16 +53,17 @@ public class ClientesController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado");
         }
 
-        ClientesModel clientes = clientesRepository.findById();
 
         String fileFoto = fileUploadService.getDiretorioImg().toString();
-        String strFoto = clientes.getUrl_img();
+        ClientesModel cliente = buscandoCliente.get();
+        String strFoto = cliente.getUrl_img();
 
         String linkFoto = fileFoto+strFoto;
-        clientes.setUrl_img(linkFoto);
+        cliente.setUrl_img(linkFoto);
 
         return ResponseEntity.status(HttpStatus.OK).body(buscandoCliente.get());
     }
+
 
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<Object> criarCliente(@ModelAttribute @Valid ClientesDTOs clientesDTOs){
