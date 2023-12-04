@@ -19,7 +19,7 @@ public record DemandasDTOs(
         TipoStatusModel status,
         @NotBlank String data_final,
         @NotNull double custo,
-        MultipartFile copy_anexo,
+        List<MultipartFile> copy_anexo,
 
         List<String> id_segmento,
         UUID id_cliente,
