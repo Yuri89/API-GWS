@@ -14,12 +14,11 @@ import com.gws.api.apigws.services.FileUploadService;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -151,6 +150,9 @@ public class UsuarioController {
 
         }
 
+        String senhaCript = new BCryptPasswordEncoder().encode(usuariosDtos.senha());
+        novoUsuario.setSenha(senhaCript);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioRepository.save(novoUsuario));
     }
 
@@ -225,7 +227,8 @@ public class UsuarioController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("HardSkills Não encontradas");
         }
 
-
+        String senhaCript = new BCryptPasswordEncoder().encode(usuariosDtos.senha());
+        usuarioEditado.setSenha(senhaCript);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioRepository.save(usuarioEditado));
     }
@@ -238,6 +241,17 @@ public class UsuarioController {
         if (usuarioBuscado.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario não encontrado");
         }
+
+
+        String link1 = usuarioBuscado.get().getUrl_img();
+        String link2 = String.valueOf(fileUploadService.getDiretorioImg());
+
+        try {
+            fileUploadService.excluirArquivo(link2+link1);
+        }catch (IOException e){
+            throw new RuntimeException(e);
+        }
+
 
         usuarioRepository.delete(usuarioBuscado.get());
         return ResponseEntity.status(HttpStatus.OK).body("Usuario deletado com sucesso!");

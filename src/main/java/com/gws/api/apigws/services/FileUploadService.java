@@ -69,4 +69,14 @@ public class FileUploadService {
         return nomeAnexo;
     }
 
+    public void excluirArquivo(String arquivo) throws IOException{
+
+        File arquivoSelecionado = new File(arquivo);
+
+        if (arquivoSelecionado.exists()){
+            arquivoSelecionado.delete();
+        }
+
+    }
+
 }

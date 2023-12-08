@@ -121,6 +121,16 @@ public class ClientesController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado");
         }
 
+        String link1 = clienteBuscado.get().getUrl_img();
+        String link2 = String.valueOf(fileUploadService.getDiretorioImg());
+
+        try {
+            fileUploadService.excluirArquivo(link2+link1);
+        }catch (IOException e){
+            throw new RuntimeException(e);
+        }
+
+
         clientesRepository.delete(clienteBuscado.get());
         return ResponseEntity.status(HttpStatus.OK).body("Cliente deletado com sucesso!");
 

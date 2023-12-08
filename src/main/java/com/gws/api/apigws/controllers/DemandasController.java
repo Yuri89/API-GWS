@@ -21,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -290,6 +291,24 @@ public class DemandasController {
         if (demandaBuscado.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado");
         }
+
+
+        for (DemandasModel demandas : demandasRepository.findAll()) {
+            String filesDemanda = fileUploadService.getDiretorioAnx().toString();
+            List<String> strDemanda = Arrays.asList(demandas.getAnexo().split(","));
+
+            for (String listaLinks : strDemanda) {
+                try {
+                    fileUploadService.excluirArquivo(filesDemanda + listaLinks);
+                }catch (IOException e){
+                    throw new RuntimeException(e);
+                }
+
+            }
+
+
+        }
+
 
         demandasRepository.delete(demandaBuscado.get());
         return ResponseEntity.status(HttpStatus.OK).body("Cliente deletado com sucesso!");
