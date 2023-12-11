@@ -182,7 +182,7 @@ public class UsuarioController {
 
 
 
-        UsuarioModel usuarioEditado = new UsuarioModel();
+        UsuarioModel usuarioEditado = buscandoUsuario.get();
         BeanUtils.copyProperties(usuariosDtos, usuarioEditado);
 
         String urlImagem;

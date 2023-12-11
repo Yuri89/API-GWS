@@ -95,7 +95,7 @@ public class ClientesController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado");
         }
 
-        ClientesModel clienteEditado = new ClientesModel();
+        ClientesModel clienteEditado = buscandoCliente.get();
         BeanUtils.copyProperties(clientesDTOs, clienteEditado);
 
 

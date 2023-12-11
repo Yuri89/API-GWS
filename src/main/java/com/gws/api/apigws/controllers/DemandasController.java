@@ -222,7 +222,7 @@ public class DemandasController {
 
 
 
-        DemandasModel demandaEditado = new DemandasModel();
+        DemandasModel demandaEditado = buscandoDemanda.get();
         BeanUtils.copyProperties(demandasDTOs, demandaEditado);
 
         String urlArquivo;

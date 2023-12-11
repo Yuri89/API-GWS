@@ -58,7 +58,7 @@ public class SegmentosController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Segmentos não encontrado");
         }
 
-        SegmentosModel segmentoEditado = new SegmentosModel();
+        SegmentosModel segmentoEditado = buscandoSegmentos.get();
         BeanUtils.copyProperties(segmentosDTOs, segmentoEditado);
 
 

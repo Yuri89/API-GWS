@@ -58,7 +58,7 @@ public class HardSkillsController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Hard Skill não encontrado");
         }
 
-        HardSkillsModel hardSkillsEditada = new HardSkillsModel();
+        HardSkillsModel hardSkillsEditada = buscandoHardskill.get();
         BeanUtils.copyProperties(hardSkillsDTOs, hardSkillsEditada);
 
 

@@ -57,7 +57,7 @@ public class SoftSkillsController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Soft Skill não encontrado");
         }
 
-        SoftSkillsModel softSkillsEditado = new SoftSkillsModel();
+        SoftSkillsModel softSkillsEditado = buscandoSoftSkill.get();
         BeanUtils.copyProperties(softSkillsDTOs, softSkillsEditado);
 
 
